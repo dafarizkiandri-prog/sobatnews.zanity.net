@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Sedang Dalam Pemeliharaan</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #111827;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 25px;
+        }
+
+        /* Progress Bar Sederhana */
+        .progress-container {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: #3b82f6;
+            height: 100%;
+            width: 60%; /* Ubah persentase ini sesuai perkiraan progress */
+            border-radius: 9999px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .info-box {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .info-box strong {
+            color: #374151;
+        }
+
+        .contact-link {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Anda bisa mengganti emoji ini dengan logo gambar perusahaan Anda -->
+        <div class="icon">🛠️</div>
+        
+        <h1>Sedang Pemeliharaan Sistem</h1>
+        
+        <p>Kami sedang melakukan pembaruan rutin untuk meningkatkan layanan dan performa website. Kami akan segera kembali secepat mungkin.</p>
+        
+        <!-- Progress Bar Visual -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <div class="info-box">
+            <p style="margin-bottom: 8px;">Estimasi selesai: <strong>[Hari, Tanggal Jam WIB]</strong></p>
+            <span>Butuh bantuan segera? Hubungi kami di <a class="contact-link" href="mailto:info@domainanda.com">info@domainanda.com</a></span>
+        </div>
+    </div>
+
+</body>
+</html>
