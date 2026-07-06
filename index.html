@@ -3,121 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Sedang Dalam Pemeliharaan</title>
+    <title>Website Under Maintenance</title>
     <style>
+        /* CSS Reset & Styling Dasar */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0b0f19;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
-            background-color: #ffffff;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            max-width: 500px;
+        /* Canvas untuk Animasi 3D */
+        #webgl-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Container Kartu Informasi (Glassmorphism) */
+        .maintenance-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 550px;
+            padding: 20px;
             text-align: center;
         }
 
-        .icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            color: #3b82f6;
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 45px 35px;
+            color: #ffffff;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
         }
 
+        /* Badge Status */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        .status-badge::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+        }
+
+        /* Tipografi */
         h1 {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 800;
             margin-bottom: 15px;
-            color: #111827;
+            line-height: 1.3;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 16px;
+            font-size: 1rem;
+            color: #94a3b8;
             line-height: 1.6;
-            color: #4b5563;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
         }
 
-        /* Progress Bar Sederhana */
+        /* Progress Bar Animasi */
         .progress-container {
-            background-color: #e5e7eb;
-            border-radius: 9999px;
-            height: 8px;
             width: 100%;
-            margin-bottom: 25px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
             overflow: hidden;
+            margin-bottom: 35px;
         }
 
         .progress-bar {
-            background-color: #3b82f6;
+            width: 100%;
             height: 100%;
-            width: 60%; /* Ubah persentase ini sesuai perkiraan progress */
-            border-radius: 9999px;
-            animation: pulse 2s infinite ease-in-out;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+            background-size: 200% auto;
+            border-radius: 10px;
+            animation: moveGradient 3s linear infinite;
         }
 
+        .footer-text {
+            font-size: 0.85rem;
+            color: #64748b;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animasi Keyframes */
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.5; }
         }
 
-        .info-box {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #6b7280;
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .info-box strong {
-            color: #374151;
-        }
-
-        .contact-link {
-            color: #3b82f6;
-            text-decoration: none;
-        }
-
-        .contact-link:hover {
-            text-decoration: underline;
+        /* Penyesuaian Responsif (Mobile & Tablet) */
+        @media (max-width: 640px) {
+            .glass-card {
+                padding: 35px 20px;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+            p {
+                font-size: 0.9rem;
+                margin-bottom: 25px;
+            }
+            .status-badge {
+                margin-bottom: 20px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Anda bisa mengganti emoji ini dengan logo gambar perusahaan Anda -->
-        <div class="icon">🛠️</div>
-        
-        <h1>Sedang Pemeliharaan Sistem</h1>
-        
-        <p>Kami sedang melakukan pembaruan rutin untuk meningkatkan layanan dan performa website. Kami akan segera kembali secepat mungkin.</p>
-        
-        <!-- Progress Bar Visual -->
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-        
-        <div class="info-box">
-            <p style="margin-bottom: 8px;">Estimasi selesai: <strong>[Hari, Tanggal Jam WIB]</strong></p>
-            <span>Butuh bantuan segera? Hubungi kami di <a class="contact-link" href="mailto:info@domainanda.com">info@domainanda.com</a></span>
+    <!-- WebGL Canvas untuk Latar Belakang 3D -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- UI Overlay di Depan -->
+    <div class="maintenance-container">
+        <div class="glass-card">
+            <div class="status-badge">Sistem Pemeliharaan</div>
+            <h1>Sedang Dalam Perbaikan</h1>
+            <p>Kami sedang melakukan pemeliharaan rutin untuk meningkatkan kualitas layanan. Kami akan segera kembali dengan fitur-fitur baru yang lebih baik.</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="footer-text">Terima kasih atas kesabaran Anda.</div>
         </div>
     </div>
 
+    <!-- Mengimpor Library Three.js dari CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Setup Scene, Kamera, & Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 4.5;
+
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.getElementById('webgl-canvas'), 
+            antialias: true, 
+            alpha: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Group untuk menampung semua objek agar rotasi keseluruhan bisa seragam
+        const mainGroup = new THREE.Group();
+        scene.add(mainGroup);
+
+        // Objek 1: Torus Knot Wireframe (Berwarna Indigo)
+        const torusGeometry = new THREE.TorusKnotGeometry(1.2, 0.35, 120, 16);
+        const torusMaterial = new THREE.MeshBasicMaterial({
+            color: 0x6366f1, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
+        mainGroup.add(torusKnot);
+
+        // Objek 2: Icosahedron Wireframe di bagian dalam (Berwarna Cyan)
+        const innerGeometry = new THREE.IcosahedronGeometry(0.7, 1);
+        const innerMaterial = new THREE.MeshBasicMaterial({
+            color: 0x06b6d4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
+        });
+        const innerShape = new THREE.Mesh(innerGeometry, innerMaterial);
+        mainGroup.add(innerShape);
+
+        // Objek 3: Partikel Bintang (Background Particles)
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 200;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0x38bdf8,
+            transparent: true,
+            opacity: 0.7
+        });
+        const starParticles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(starParticles);
+
+        // Interaktivitas Mouse / Touch (Parallax Effect)
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) - 0.5;
+            mouseY = (event.clientY / window.innerHeight) - 0.5;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            if(event.touches.length > 0) {
+                mouseX = (event.touches[0].clientX / window.innerWidth) - 0.5;
+                mouseY = (event.touches[0].clientY / window.innerHeight) - 0.5;
+            }
+        });
+
+        // Event Listener untuk Responsivitas Layar
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
+
+        // Loop Animasi (Render Loop)
+        const clock = new THREE.Clock();
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Rotasi berlawanan arah pada tiap objek agar terlihat dinamis
+            torusKnot.rotation.x = elapsedTime * 0.15;
+            torusKnot.rotation.y = elapsedTime * 0.2;
+
+            innerShape.rotation.x = -elapsedTime * 0.25;
+            innerShape.rotation.y = -elapsedTime * 0.15;
+
+            starParticles.rotation.y = elapsedTime * 0.03;
+
+            // Efek geser (parallax) mengikuti posisi kursor atau sentuhan jari
+            mainGroup.position.x += (mouseX * 1.5 - mainGroup.position.x) * 0.05;
+            mainGroup.position.y += (-mouseY * 1.5 - mainGroup.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        };
+
+        animate();
+    </script>
 </body>
 </html>
